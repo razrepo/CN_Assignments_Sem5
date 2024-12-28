@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #000; /* Change background to black for better star visibility */
+        color: #fff; /* White text for contrast */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden; /* Prevent scrollbars */
+        position: relative; /* For absolute positioning of stars */
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative; /* Allow positioning relative to this element */
+        z-index: 10; /* Ensure content appears above stars */
+      }
+      h1 {
+        font-size: 10rem;
+        margin: 0;
+        font-weight: 700;
+      }
+      p {
+        font-size: 2rem;
+        margin-top: 1rem;
+      }
+      a {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        text-decoration: none;
+        color: #fff; /* White text for link */
+        border-bottom: 2px solid #fff; /* White underline */
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+      }
+      a:hover {
+        color: #bbb; /* Lighter color on hover */
+        border-bottom: 2px solid #bbb; /* Lighter underline on hover */
+      }
+      /* Starry background */
+      .stars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0; /* Place behind the content */
+      }
+      .star {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        animation: twinkle 1.5s infinite alternate;
+      }
+
+      /* Star animation */
+      @keyframes twinkle {
+        0% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars"></div>
+    <div class="container">
+      <h1>404</h1>
+      <p>Page not found</p>
+      <a href="/helloworld.html">Return to Earth</a>
+    </div>
+
+    <script>
+      // Generate random stars
+      const starsContainer = document.querySelector(".stars");
+      const numStars = 150; // Adjust number of stars as needed
+
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        const size = Math.random() * 3 + 1; // Random size between 1 and 4px
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        starsContainer.appendChild(star);
+      }
+
+      // Optional: Add background movement
+      function animateStars() {
+        starsContainer.style.transform = `translateY(${
+          Math.sin(Date.now() / 500) * 10
+        }px)`;
+        requestAnimationFrame(animateStars);
+      }
+      animateStars();
+    </script>
+  </body>
+</html>

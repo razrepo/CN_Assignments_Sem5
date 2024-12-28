@@ -1,0 +1,110 @@
+<!-- See the Moon's shadow on Earth's surface. -->
+
+<script src="https://unpkg.com/lume@0.3.0-alpha.26/dist/global.js"></script>
+
+<!-- Do you see the Moon's shadow on Earth's surface when it passes in front of the sun? -->
+
+<!-- Pointer Events polyfill (for Safari < 13) -->
+<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+
+<!-- By default a <lume-scene> fills the space of it's parent, in this case the <body>. -->
+<lume-scene id="scene" webgl touch-action="none">
+  <lume-camera-rig
+    initial-polar-angle="0"
+    min-distance="90"
+    max-distance="1000"
+    initial-distance="200"
+  ></lume-camera-rig>
+  <!-- Stars -->
+  <lume-sphere
+    id="stars"
+    texture="//assets.codepen.io/191583/galaxy_starfield.png"
+    receive-shadow="false"
+    has="basic-material"
+    sidedness="back"
+    size="4000 4000 4000"
+    mount-point="0.5 0.5 0.5"
+    color="white"
+  ></lume-sphere>
+  <!-- Sun light -->
+  <lume-element3d size="0 0" rotation="0 -50 0">
+    <lume-element3d size="0 0" rotation="10 0 0">
+      <lume-point-light
+        id="light"
+        size="0 0"
+        position="0 0 1800"
+        color="white"
+        intensity="2"
+        distance="10000"
+        shadow-map-width="2048"
+        shadow-map-height="2048"
+        shadow-camera-far="20000"
+      ></lume-point-light>
+    </lume-element3d>
+  </lume-element3d>
+  <!-- Earth -->
+  <lume-element3d size="0 0 0">
+    <lume-element3d rotation="0 180 0">
+      <lume-sphere
+        id="earth"
+        texture="//assets.codepen.io/191583/earthmap1k.jpg"
+        bump-map="//assets.codepen.io/191583/earthbump1k.jpg"
+        specular-map="//assets.codepen.io/191583/earthspec1k.jpg"
+        size="200 200 200"
+        mount-point="0.5 0.5 0.5"
+        color="white"
+      >
+        <lume-sphere
+          id="clouds"
+          texture="//assets.codepen.io/191583/earthclouds.png"
+          opacity="0.5"
+          size="210 210 210"
+          mount-point="0.5 0.5 0.5"
+          align-point="0.5 0.5 0.5"
+          color="white"
+        ></lume-sphere>
+      </lume-sphere>
+    </lume-element3d>
+    <lume-element3d rotation="90 10 0">
+      <lume-element3d id="moonRotator" rotation="0 0 110">
+        <lume-sphere
+          id="moon"
+          texture="//assets.codepen.io/191583/moon.jpg"
+          position="250"
+          size="5 5 5"
+          mount-point="0.5 0.5 0.5"
+          color="white"
+        ></lume-sphere>
+      </lume-element3d>
+    </lume-element3d>
+  </lume-element3d>
+</lume-scene>
+
+<style>
+  html,
+  body {
+    background: #222;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  lume-scene {
+    /* Prevent touch scrolling from interfering with out pointermove handler. */
+    touch-action: none;
+  }
+
+  lume-scene * {
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  // Define LUME's HTML elements with their default names.
+  LUME.defineElements();
+
+  moonRotator.rotation = (x, y, z, t) => [x, y, t * 0.004];
+  earth.rotation = (x, y, z, t) => [x, t * 0.01, z];
+  clouds.rotation = (x, y, z, t) => [x, -t * 0.003, z];
+</script>
